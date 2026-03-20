@@ -69,10 +69,10 @@ const Login = () => {
     }}
   >
     {/* Overlay */}
-    <div className="absolute inset-0 z-50 bg-linear-to-b from-black/70 to-black/20"></div>
+    <div className="absolute inset-0 z-50 bg-linear-to-b from-black/80 to-black/40"></div>
 
     {/* Login / signup  */}
-    <div className=" bg-black/80 w-[25%] min-w-75 px px-5 z-60 py-8 space-y-5 rounded-2xl  text-white">
+    <div className=" bg-black/70 w-[25%] min-w-75 px px-5 z-60 py-8 space-y-5 rounded-2xl  text-white">
       <h1 className="font-bold text-2xl" >{state} </h1>
       <form onSubmit={handleFormSubmit} className="space-y-3" >
 
@@ -81,10 +81,8 @@ const Login = () => {
         })}
         <button className="w-full p-2 rounded-lg bg-red-700 cursor-pointer active:scale-97 transition duration-300 ">Submit</button>
       </form>
-      <p className="cursor-pointer" onClick={HandleRegisterClick} >Not Registered? Register Here </p>
+      <p className="cursor-pointer" onClick={HandleRegisterClick} >{state==="Sign In"?"Not Registered? Register Here":"Alerady registered? Sign in Here" }</p>
     </div>
-
-
   </div>
   )
 }
