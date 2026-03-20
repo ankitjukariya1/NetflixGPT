@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
+import authenticationValidation from "../../utils/validation/authenticationValidation";
 
 
 const Login = () => {
+
+  const [error, setError] = useState({});
 
   const [formInput, setFormInput] = useState({
     name: "",
@@ -18,21 +21,23 @@ const Login = () => {
     })
 
   }
-
+  
   const handleFormSubmit = (e) => {
     e.preventDefault();
-     console.log(state , formInput)
-         
-    setFormInput({
+    const result = authenticationValidation(formInput);
+      setError(result)
+    // If not any error only than data will console
+      console.log(result);
+    if(Object.keys(result).length===0) {
+      console.log(state, formInput)
 
-      name: "",
-      emailAddress: "",
-      password: ""
-
-    })
-
+      setFormInput({
+        name: "",
+        emailAddress: "",
+        password: ""
+      })
+    }
   }
-
   const [state, setState] = useState('Sign In')
   const formData = [
     {
@@ -59,6 +64,13 @@ const Login = () => {
 
   const HandleRegisterClick = () => {
     state === 'Sign In' ? setState('Sign Up') : setState('Sign In');
+    setError({});
+    setFormInput({
+        name: "",
+        emailAddress: "",
+        password: ""
+      })
+    
   }
 
   return (<div
@@ -77,14 +89,23 @@ const Login = () => {
       <form onSubmit={handleFormSubmit} className="space-y-3" >
 
         {formData.map(d => {
-          return (d.show === state || d.show === "both") && <input onChange={handleInputChange} key={d.inputName} className="bg-gray-900 p-2 w-full rounded-lg" name={d.name} type={d.type} value={formInput[d.name]} placeholder={d.inputName} />
+          return (d.show === state || d.show === "both") && <div key={d.inputName}  > <input
+            onChange={handleInputChange}
+            className="bg-gray-900 p-2 w-full rounded-lg"
+            name={d.name}
+            type={d.type}
+            value={formInput[d.name]}
+            placeholder={d.inputName} />
+
+            {error[d.name] && <p className="text-red-600 font-extralight">{error[d.name]}</p>}
+          </div>
         })}
         <button className="w-full p-2 rounded-lg bg-red-700 cursor-pointer active:scale-97 transition duration-300 ">Submit</button>
       </form>
-      <p className="cursor-pointer" onClick={HandleRegisterClick} >{state==="Sign In"?"Not Registered? Register Here":"Alerady registered? Sign in Here" }</p>
+      <p className="cursor-pointer" onClick={HandleRegisterClick} >{state === "Sign In" ? "Not Registered? Register Here" : "Alerady registered? Sign in Here"}</p>
     </div>
   </div>
   )
 }
 
-export default Login;
+export default Login
