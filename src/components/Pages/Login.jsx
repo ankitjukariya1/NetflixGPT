@@ -1,5 +1,6 @@
 import { useState } from "react"
 import authenticationValidation from "../../utils/validation/authenticationValidation";
+import { login, signup } from "../../services/authService";
 
 
 const Login = () => {
@@ -21,14 +22,24 @@ const Login = () => {
     })
 
   }
-  
-  const handleFormSubmit = (e) => {
+
+  //  signup/signIn
+
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     const result = authenticationValidation(formInput);
-      setError(result)
+    setError(result)
     // If not any error only than data will console
-      console.log(result);
-    if(Object.keys(result).length===0) {
+    if (Object.keys(result).length === 0) {
+      const user = state === "Sign Up" ? await signup(formInput.emailAddress, formInput.password) : await login(formInput.emailAddress, formInput.password);
+      if (user instanceof Error){
+        setError({status:"Invalid Credentials"})
+        return console.log("Login failed")
+        
+      }
+      else{
+        console.log("Login successfull")
+      }
       console.log(state, formInput)
 
       setFormInput({
@@ -66,11 +77,11 @@ const Login = () => {
     state === 'Sign In' ? setState('Sign Up') : setState('Sign In');
     setError({});
     setFormInput({
-        name: "",
-        emailAddress: "",
-        password: ""
-      })
-    
+      name: "",
+      emailAddress: "",
+      password: ""
+    })
+
   }
 
   return (<div
@@ -100,6 +111,7 @@ const Login = () => {
             {error[d.name] && <p className="text-red-600 font-extralight">{error[d.name]}</p>}
           </div>
         })}
+         {error.status?<p className="text-red-600 font-extralight">{error.status}</p>:""}
         <button className="w-full p-2 rounded-lg bg-red-700 cursor-pointer active:scale-97 transition duration-300 ">Submit</button>
       </form>
       <p className="cursor-pointer" onClick={HandleRegisterClick} >{state === "Sign In" ? "Not Registered? Register Here" : "Alerady registered? Sign in Here"}</p>
