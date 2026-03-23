@@ -1,11 +1,36 @@
 import { useState } from "react"
 import authenticationValidation from "../../utils/validation/authenticationValidation";
-import { login, signup } from "../../services/authService";
+import { login,signUp } from "../../features/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+
+ const formData = [
+    {
+      inputName: "Name",
+      name: "name",
+      show: "Sign Up",
+      type: "text"
+
+    },
+    {
+      inputName: "Email Address",
+      name: "emailAddress",
+      show: "both",
+      type: "text"
+    },
+    {
+      inputName: "Password",
+      name: "password",
+      show: "both",
+      type: "password"
+    },
+
+  ]
 
 
 const Login = () => {
-
+    const user = useSelector(state=>{state.user})
   const [error, setError] = useState({});
+  const [state, setState] = useState('Sign In')
 
   const [formInput, setFormInput] = useState({
     name: "",
@@ -31,9 +56,9 @@ const Login = () => {
     setError(result)
     // If not any error only than data will console
     if (Object.keys(result).length === 0) {
-      const user = state === "Sign Up" ? await signup(formInput.emailAddress, formInput.password) : await login(formInput.emailAddress, formInput.password);
+      const user = state === "Sign Up" ? await useDispatch(signUp(formInput.emailAddress,formInput.password)) : await useDispatch(login(formInput.emailAddress,formInput.password));
       if (user instanceof Error){
-        setError({status:"Invalid Credentials"})
+        setError({status:user.code})
         return console.log("Login failed")
         
       }
@@ -49,30 +74,8 @@ const Login = () => {
       })
     }
   }
-  const [state, setState] = useState('Sign In')
-  const formData = [
-    {
-      inputName: "Name",
-      name: "name",
-      show: "Sign Up",
-      type: "text"
 
-    },
-    {
-      inputName: "Email Address",
-      name: "emailAddress",
-      show: "both",
-      type: "text"
-    },
-    {
-      inputName: "Password",
-      name: "password",
-      show: "both",
-      type: "password"
-    },
-
-  ]
-
+ 
   const HandleRegisterClick = () => {
     state === 'Sign In' ? setState('Sign Up') : setState('Sign In');
     setError({});
