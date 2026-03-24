@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import authenticationValidation from "../../utils/validation/authenticationValidation";
 import { changeError, login, signUp } from "../../features/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate} from "react-router-dom";
 
 const formData = [
   {
@@ -28,6 +29,7 @@ const formData = [
 
 
 const Login = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user, error, loading } = useSelector(state => state.auth);
   const [formType, setFormType] = useState('Sign In');
@@ -37,6 +39,11 @@ const Login = () => {
     emailAddress: "",
     password: ""
   });
+  useEffect(()=>{
+    console.log(user);
+   Object.keys(user).length>0&&navigate("/home");
+  },[user])
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -59,8 +66,6 @@ const Login = () => {
       const response = formType === "Sign Up" ?
         await dispatch(signUp({ email: formInput.emailAddress, password: formInput.password })) :
         await dispatch(login({ email: formInput.emailAddress, password: formInput.password }));
-
-      console.log(response);
       !response.error && setFormInput({
         name: "",
         emailAddress: "",
@@ -76,6 +81,7 @@ const Login = () => {
   const HandleRegisterClick = () => {
     formType === 'Sign In' ? setFormType('Sign Up') : setFormType('Sign In');
     dispatch(changeError(null))
+    setInvalidationError({});
     setFormInput({
       name: "",
       emailAddress: "",
@@ -83,9 +89,7 @@ const Login = () => {
     })
 
   }
-  useEffect(() => {
-    console.log(loading);
-  }, [loading])
+  
 
   return (<div
     className="min-h-screen bg-cover bg-center relative z-40 flex justify-center items-center"
@@ -115,7 +119,7 @@ const Login = () => {
           </div>
         })}
         {error ? <p className="text-red-600 font-extralight">{error}</p> : ""}
-        <button className="w-full p-2 rounded-lg bg-red-700 cursor-pointer active:scale-97 transition duration-300 ">{loading ? "Submiting..." : "Submit"}</button>
+        <button disabled={loading} className={` w-full p-2 rounded-lg bg-red-700  active:scale-97 transition duration-300 ${loading?"cursor-not-allowed":"cursor-pointer"}`} >{loading ? "Submiting..." : "Submit"}</button>
       </form>
       <p className="cursor-pointer" onClick={HandleRegisterClick} >{formType === "Sign In" ? "Not Registered? Register Here" : "Alerady registered? Sign in Here"}</p>
     </div>
