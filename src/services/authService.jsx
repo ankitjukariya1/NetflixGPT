@@ -5,31 +5,38 @@ import {
   GoogleAuthProvider,
   signInWithPopup
 } from "firebase/auth";
-import { auth } from "../firebase/config";
+import auth  from "../firebase/config";
 
 // Email Signup
-export const signup = async(email, password) => {
+export const signupUser = async(email, password) => {
   try {
     const user = (await createUserWithEmailAndPassword(auth, email, password)).user;
-    return user;
+    return {uid: user.uid,
+    email: user.email,
+    displayName: user.displayName,};
   } catch (error){
     console.log( error.message)
-    return error;
+    throw error.code;
   }
 };
 
 // Email Login
-export const login = async (email, password) => {
+export const loginUser = async (email, password) => {
   try {
-    return (await signInWithEmailAndPassword(auth, email, password)).user;
+    const user = (await signInWithEmailAndPassword(auth, email, password)).user;
+    return {uid: user.uid,
+    email: user.email,
+    displayName: user.displayName,}
+    
   } catch (error) {
-    return error;
+    console.log(error.message)
+    throw error.code;
   }
   
 };
 
 // Google Login
-export const googleLogin = () => {
+export const googleLoginUser = () => {
   const provider = new GoogleAuthProvider();
     return signInWithPopup(auth, provider)
   .then((result) => {
@@ -48,7 +55,7 @@ export const googleLogin = () => {
     // The AuthCredential type that was used.
     const credential = GoogleAuthProvider.credentialFromError(error);
     // ...
-    return error;
+    throw errorCode;
   });
 };
 

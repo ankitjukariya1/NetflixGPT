@@ -1,37 +1,37 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import authenticationValidation from "../../utils/validation/authenticationValidation";
-import { login,signUp } from "../../features/userSlice";
+import { changeError, login, signUp } from "../../features/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 
- const formData = [
-    {
-      inputName: "Name",
-      name: "name",
-      show: "Sign Up",
-      type: "text"
+const formData = [
+  {
+    inputName: "Name",
+    name: "name",
+    show: "Sign Up",
+    type: "text"
 
-    },
-    {
-      inputName: "Email Address",
-      name: "emailAddress",
-      show: "both",
-      type: "text"
-    },
-    {
-      inputName: "Password",
-      name: "password",
-      show: "both",
-      type: "password"
-    },
+  },
+  {
+    inputName: "Email Address",
+    name: "emailAddress",
+    show: "both",
+    type: "text"
+  },
+  {
+    inputName: "Password",
+    name: "password",
+    show: "both",
+    type: "password"
+  },
 
-  ]
+]
 
 
 const Login = () => {
-    const user = useSelector(state=>{state.user})
-  const [error, setError] = useState({});
-  const [state, setState] = useState('Sign In')
-
+  const dispatch = useDispatch();
+  const { user, error, loading } = useSelector(state => state.auth);
+  const [formType, setFormType] = useState('Sign In');
+  const [invalidationError, setInvalidationError] = useState({});
   const [formInput, setFormInput] = useState({
     name: "",
     emailAddress: "",
@@ -45,7 +45,7 @@ const Login = () => {
       ...formInput,
       [name]: value
     })
-
+    dispatch(changeError(null));
   }
 
   //  signup/signIn
@@ -53,32 +53,29 @@ const Login = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     const result = authenticationValidation(formInput);
-    setError(result)
+    setInvalidationError(result)
     // If not any error only than data will console
     if (Object.keys(result).length === 0) {
-      const user = state === "Sign Up" ? await useDispatch(signUp(formInput.emailAddress,formInput.password)) : await useDispatch(login(formInput.emailAddress,formInput.password));
-      if (user instanceof Error){
-        setError({status:user.code})
-        return console.log("Login failed")
-        
-      }
-      else{
-        console.log("Login successfull")
-      }
-      console.log(state, formInput)
+      const response = formType === "Sign Up" ?
+        await dispatch(signUp({ email: formInput.emailAddress, password: formInput.password })) :
+        await dispatch(login({ email: formInput.emailAddress, password: formInput.password }));
 
-      setFormInput({
+      console.log(response);
+      !response.error && setFormInput({
         name: "",
         emailAddress: "",
         password: ""
+
       })
     }
+
+
   }
 
- 
+
   const HandleRegisterClick = () => {
-    state === 'Sign In' ? setState('Sign Up') : setState('Sign In');
-    setError({});
+    formType === 'Sign In' ? setFormType('Sign Up') : setFormType('Sign In');
+    dispatch(changeError(null))
     setFormInput({
       name: "",
       emailAddress: "",
@@ -86,6 +83,9 @@ const Login = () => {
     })
 
   }
+  useEffect(() => {
+    console.log(loading);
+  }, [loading])
 
   return (<div
     className="min-h-screen bg-cover bg-center relative z-40 flex justify-center items-center"
@@ -99,11 +99,11 @@ const Login = () => {
 
     {/* Login / signup  */}
     <div className=" bg-black/70 w-[25%] min-w-75 px px-5 z-60 py-8 space-y-5 rounded-2xl  text-white">
-      <h1 className="font-bold text-2xl" >{state} </h1>
+      <h1 className="font-bold text-2xl" >{formType} </h1>
       <form onSubmit={handleFormSubmit} className="space-y-3" >
 
         {formData.map(d => {
-          return (d.show === state || d.show === "both") && <div key={d.inputName}  > <input
+          return (d.show === formType || d.show === "both") && <div key={d.inputName}  > <input
             onChange={handleInputChange}
             className="bg-gray-900 p-2 w-full rounded-lg"
             name={d.name}
@@ -111,13 +111,13 @@ const Login = () => {
             value={formInput[d.name]}
             placeholder={d.inputName} />
 
-            {error[d.name] && <p className="text-red-600 font-extralight">{error[d.name]}</p>}
+            {invalidationError[d.name] && <p className="text-red-600 font-extralight">{invalidationError[d.name]}</p>}
           </div>
         })}
-         {error.status?<p className="text-red-600 font-extralight">{error.status}</p>:""}
-        <button className="w-full p-2 rounded-lg bg-red-700 cursor-pointer active:scale-97 transition duration-300 ">Submit</button>
+        {error ? <p className="text-red-600 font-extralight">{error}</p> : ""}
+        <button className="w-full p-2 rounded-lg bg-red-700 cursor-pointer active:scale-97 transition duration-300 ">{loading ? "Submiting..." : "Submit"}</button>
       </form>
-      <p className="cursor-pointer" onClick={HandleRegisterClick} >{state === "Sign In" ? "Not Registered? Register Here" : "Alerady registered? Sign in Here"}</p>
+      <p className="cursor-pointer" onClick={HandleRegisterClick} >{formType === "Sign In" ? "Not Registered? Register Here" : "Alerady registered? Sign in Here"}</p>
     </div>
   </div>
   )
