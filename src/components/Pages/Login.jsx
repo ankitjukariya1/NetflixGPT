@@ -41,7 +41,7 @@ const Login = () => {
   });
   useEffect(()=>{
     console.log(user);
-   Object.keys(user).length>0&&navigate("/home");
+   user&&navigate("/home");
   },[user])
   
 
