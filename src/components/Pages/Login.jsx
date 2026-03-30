@@ -3,29 +3,9 @@ import authenticationValidation from "../../utils/validation/authenticationValid
 import { changeError, login, signUp } from "../../features/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate} from "react-router-dom";
+import { background_image , formData} from "../../constants/loginConstants";
 
-const formData = [
-  {
-    inputName: "Name",
-    name: "name",
-    show: "Sign Up",
-    type: "text"
 
-  },
-  {
-    inputName: "Email Address",
-    name: "emailAddress",
-    show: "both",
-    type: "text"
-  },
-  {
-    inputName: "Password",
-    name: "password",
-    show: "both",
-    type: "password"
-  },
-
-]
 
 
 const Login = () => {
@@ -39,8 +19,9 @@ const Login = () => {
     emailAddress: "",
     password: ""
   });
+
+
   useEffect(()=>{
-    console.log(user);
    user&&navigate("/home");
   },[user])
   
@@ -95,7 +76,7 @@ const Login = () => {
     className="min-h-screen bg-cover bg-center relative z-40 flex justify-center items-center"
     style={{
       backgroundImage:
-        "url('https://assets.nflxext.com/ffe/siteui/vlv3/7ea4545e-42d3-4ebf-82fd-0e1984dc6375/web/IN-en-20260316-TRIFECTA-perspective_789c5633-3949-4708-8e6c-8ddfd22ed696_large.jpg')",
+        `url(${background_image})`,
     }}
   >
     {/* Overlay */}

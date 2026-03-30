@@ -8,15 +8,15 @@ import { Outlet, useNavigate } from "react-router-dom"
 const ProtectedRoute= ()=>{
  const { user } = useSelector((state) => state.auth);
 const navigate = useNavigate();
-    if (user){
-     return <Outlet></Outlet>
+ useEffect(()=>{
+    if (!user){
+     return navigate("/")
     }  
-    else{
-      useEffect(()=>{
-        navigate("/")
-      },[user])
-      
-    }
+    },[user])
+
+ return(
+  <Outlet></Outlet>
+ )   
 
 }
 

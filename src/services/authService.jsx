@@ -60,6 +60,6 @@ export const googleLoginUser = () => {
 };
 
 // Logout
-export const logout = () => {
+export const signoutUser = () => {
   return signOut(auth);
 };
