@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
-import authenticationValidation from "../../utils/validation/authenticationValidation";
-import { changeError, login, signUp } from "../../features/userSlice";
+import authenticationValidation from "../utils/validation/authenticationValidation"
+import { changeError, login, signUp } from "../features/userSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate} from "react-router-dom";
-import { background_image , formData} from "../../constants/loginConstants";
+import { useNavigate } from "react-router-dom";
+import { background_image, formData } from "../constants/loginConstants";
 
 
 
@@ -21,10 +21,10 @@ const Login = () => {
   });
 
 
-  useEffect(()=>{
-   user&&navigate("/home");
-  },[user])
-  
+  useEffect(() => {
+    user && navigate("/home");
+  }, [user])
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -70,7 +70,7 @@ const Login = () => {
     })
 
   }
-  
+
 
   return (<div
     className="min-h-screen bg-cover bg-center relative z-40 flex justify-center items-center"
@@ -100,7 +100,7 @@ const Login = () => {
           </div>
         })}
         {error ? <p className="text-red-600 font-extralight">{error}</p> : ""}
-        <button disabled={loading} className={` w-full p-2 rounded-lg bg-red-700  active:scale-97 transition duration-300 ${loading?"cursor-not-allowed":"cursor-pointer"}`} >{loading ? "Submiting..." : "Submit"}</button>
+        <button disabled={loading} className={` w-full p-2 rounded-lg bg-red-700  active:scale-97 transition duration-300 ${loading ? "cursor-not-allowed" : "cursor-pointer"}`} >{loading ? "Submiting..." : "Submit"}</button>
       </form>
       <p className="cursor-pointer" onClick={HandleRegisterClick} >{formType === "Sign In" ? "Not Registered? Register Here" : "Alerady registered? Sign in Here"}</p>
     </div>

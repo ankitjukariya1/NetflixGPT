@@ -1,4 +1,4 @@
-import movieApi from "./axios";
+import { movieApi } from "./axios";
 
 
 export const getPopularMovie = async()=>{
@@ -23,4 +23,15 @@ try {
 } catch (error) {
    console.log(error.message);
 }
+}
+
+export const getMainMovieVideo = async ({queryKey})=>{
+  try {
+    const [,movieId]=queryKey;
+    const result= await movieApi.get(`/mainMovie/video/${movieId}`)
+    return result.data;
+  } catch (error) {
+    console.log(error.message);
+    throw error;
+  }
 }
