@@ -1,5 +1,5 @@
 
-import { useQueries} from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
 import { getPopularMovie, getTopRatedMovie, getTrendingMovie } from "../api/movieApi";
 import MainMovie from "../components/homePage components/MainMovie";
 import MovieContainer from "../components/homePage components/MovieContainer";
@@ -7,7 +7,7 @@ import MovieContainer from "../components/homePage components/MovieContainer";
 
 
 const Home = () => {
- 
+
    const result = useQueries({
       queries: [{
          queryKey: ['popular'],
@@ -34,20 +34,22 @@ const Home = () => {
    const topRated = result[1];
    const trending = result[2];
    return (
-      <div className="homePage bg-black min-h-dvh">
-        <MainMovie trending={trending} />
-        <div className="text-white font-semibold mt-4 ml-4">
-         <p>Top 10 Popular Movies in Netflix Today</p>
-        </div>
-        <MovieContainer data ={popular} />
-        <div className="text-white font-semibold mt-4 ml-4">
-         <p>Top 10 Top Rated Movies</p>
-        </div>
-        <MovieContainer data={topRated}></MovieContainer>
-        <div className="text-white font-semibold mt-4 ml-4">
-         <p>Trending Movies</p>
-         <MovieContainer data={trending}></MovieContainer>
-        </div>
+      <div className="homePage bg-black relative ">
+         <MainMovie trending={trending} />
+         <div className="relative z-10 -mt-28 md:-mt-36 lg:-mt-48">
+            <div className="text-white font-semibold ml-4">
+               <p>Top 10 Popular Movies in Netflix Today</p>
+            </div>
+            <MovieContainer data={popular} />
+         </div>
+         <div className="text-white font-semibold mt-4 ml-4">
+            <p>Top 10 Top Rated Movies</p>
+         </div>
+         <MovieContainer data={topRated}></MovieContainer>
+         <div className="text-white font-semibold mt-4 ml-4">
+            <p>Trending Movies</p>
+            <MovieContainer data={trending}></MovieContainer>
+         </div>
       </div>
    )
 

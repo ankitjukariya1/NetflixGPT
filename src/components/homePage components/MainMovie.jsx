@@ -18,23 +18,23 @@ const MainMovie = ({ trending }) => {
   });
   const mainMovie = trending.data && getMainMovie(trending.data?.results);
   const isDataReady = trending.data && trailerMovie && !trending.isFetching && !mainMovievideo.isFetching;
-  return <div className="relative w-full overflow-hidden h-full">
+  return <div className="relative w-full overflow-hidden h-full min-h-[300px] lg:min-h-[500px]">
     {/* Iframe renders underneath, always in DOM once data is ready */}
     {isDataReady && (
-      <div className="mainMovie relative flex flex-col justify-center aspect-video " onLoad={() => setIsIframeLoaded(true)} >
-        
+      <div className="mainMovie relative flex flex-col justify-center aspect-square lg:aspect-video w-full  " onLoad={() => setIsIframeLoaded(true)} >
+
         <iframe
           className="video 
           pointer-events-none
           w-full h-full block border-0 "
-          src={`https://www.youtube.com/embed/${trailerMovie?.key}?loop=1&autoplay=1&mute=1`}
+          src={`https://www.youtube.com/embed/${trailerMovie?.key}?loop=1&playlist=${trailerMovie?.key}&autoplay=1&mute=1`}
           allow="autoplay; encrypted-media"
           allowFullScreen
           frameBorder="0"
 
         ></iframe>
-        <div className="textContainer absolute ml-5 mt-20 md:ml-10 lg:ml-70">
-          <h1 className="title text-white ml-15 md:ml-0 font-bold  md:text-4xl  ">{mainMovie?.title}</h1>
+        <div className="textContainer absolute ml-5  md:ml-10 lg:ml-30">
+          <h1 className="title text-white ml-6 md:ml-0 font-bold  md:text-4xl  ">{mainMovie?.title}</h1>
           <p className="description hidden md:block max-w-[50%] lg:max-w-95 overflow-hidden text-white ">
             {mainMovie?.overview}
           </p>
