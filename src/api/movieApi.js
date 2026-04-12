@@ -3,25 +3,34 @@ import { movieApi } from "./axios";
 
 export const getPopularMovie = async()=>{
 try {
-  return await movieApi.get("/movies/popular")
+  const result = await movieApi.get("/movies/popular")
+  return result.data
 } catch (error) {
-   console.log(error.message);
+  console.log(error.message);
+  throw error
+   
 }
 }
 
 export const getTrendingMovie = async()=>{
 try {
-  return await movieApi.get("/movies/trending")
+  const result = await movieApi.get("/movies/trending")
+  return result.data
 } catch (error) {
-   console.log(error.message);
+  console.log(error.message);
+  throw error;
+   
 }
 }
 
 export const getTopRatedMovie = async()=>{
 try {
-  return await movieApi.get("/movies/top_rated")
+  const result= await movieApi.get("/movies/top_rated")
+  return result.data
 } catch (error) {
-   console.log(error.message);
+  console.log(error.message);
+  throw error;
+   
 }
 }
 

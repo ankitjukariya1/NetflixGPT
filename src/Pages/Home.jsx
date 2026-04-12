@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { useQueries, useQuery } from "@tanstack/react-query";
-import { getMainMovieVideo, getPopularMovie, getTopRatedMovie, getTrendingMovie } from "../api/movieApi";
-import { getMainMovie } from "../services/MainMovie";
-import { MainVideoShimmer } from "../components/homePage components/MainVideoShimmer";
+
+import { useQueries} from "@tanstack/react-query";
+import { getPopularMovie, getTopRatedMovie, getTrendingMovie } from "../api/movieApi";
+import MainMovie from "../components/homePage components/MainMovie";
+import MovieContainer from "../components/homePage components/MovieContainer";
+
 
 
 const Home = () => {
-   const [isIframeLoaded, setIsIframeLoaded] = useState(false);
-
+ 
    const result = useQueries({
       queries: [{
          queryKey: ['popular'],
@@ -33,46 +33,21 @@ const Home = () => {
    const popular = result[0];
    const topRated = result[1];
    const trending = result[2];
-   const mainMovievideo = useQuery({
-      queryKey: ['mainMovie', trending.data?.data.results[0].id],
-      queryFn: getMainMovieVideo,
-      enabled: !!trending.data,
-      gcTime: 5 * 60 * 1000,
-      staleTime: 5 * 60 * 1000
-   })
-   const mainMovie = trending.data && getMainMovie(trending.data.data.results);
-   const trailerMovie = mainMovievideo.data?.results.find(d => {
-      return d.type === "Trailer"
-   });
-
-   const isDataReady = trending.data && trailerMovie && !trending.isFetching && !mainMovievideo.isFetching;
-
    return (
-      <div className="homePage min-h-dvh">
-         <div  className="relative w-screen overflow-hidden h-[90dvh]">
-            {/* Iframe renders underneath, always in DOM once data is ready */}
-            {isDataReady && (
-               <div className="mainMovie relative w-full h-[90dvh]" onLoad={() => setIsIframeLoaded(true)} >
-                  <iframe
-                     className="video absolute inset-0 w-full h-full block border-0"
-                     src={`https://www.youtube.com/embed/${trailerMovie?.key}?autoplay=1&mute=1`}
-                     allow="autoplay; encrypted-media"
-                     allowFullScreen
-                     frameBorder="0"
-
-                  ></iframe>
-                  <h1 className="title text-white absolute top-60 font-bold text-4xl left-70 ">{mainMovie?.title}</h1>
-                  <p className="descriptin max-w-60 text-white absolute top-72 left-70 ">
-                     {mainMovie?.overview}
-                  </p>
-               </div>
-            )}
-
-            {/* Shimmer overlays on top, fades out smoothly when iframe is loaded */}
-            
-               <MainVideoShimmer data = {isDataReady} frame ={isIframeLoaded} ></MainVideoShimmer>
-            
-         </div>
+      <div className="homePage bg-black min-h-dvh">
+        <MainMovie trending={trending} />
+        <div className="text-white font-semibold mt-4 ml-4">
+         <p>Top 10 Popular Movies in Netflix Today</p>
+        </div>
+        <MovieContainer data ={popular} />
+        <div className="text-white font-semibold mt-4 ml-4">
+         <p>Top 10 Top Rated Movies</p>
+        </div>
+        <MovieContainer data={topRated}></MovieContainer>
+        <div className="text-white font-semibold mt-4 ml-4">
+         <p>Trending Movies</p>
+         <MovieContainer data={trending}></MovieContainer>
+        </div>
       </div>
    )
 
