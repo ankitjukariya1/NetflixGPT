@@ -18,7 +18,7 @@ const MainMovie = ({ trending }) => {
   });
   const mainMovie = trending.data && getMainMovie(trending.data?.results);
   const isDataReady = trending.data && trailerMovie && !trending.isFetching && !mainMovievideo.isFetching;
-  return <div className="relative w-full overflow-hidden aspect-auto md:aspect-video ">
+  return <div className="relative w-full overflow-hidden aspect-square md:aspect-video ">
     {/* Iframe renders underneath, always in DOM once data is ready */}
     {isDataReady && (
       <div className="mainMovie relative flex flex-col justify-center aspect-square lg:aspect-video w-full  " onLoad={() => setIsIframeLoaded(true)} >
