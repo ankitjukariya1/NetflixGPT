@@ -40,19 +40,19 @@ const handleclick= (e)=>{
    return ()=>{document.removeEventListener("click",handleclick)}
 },[])
 
-  return (<><div className={`Nav-Container justify-between absolute inset-x-0 px-2 h-15 md:px-25 z-10 bg-linear-to-b from-black/40 to-black/1 flex `}>
+  return (<><div className={`Nav-Container justify-between absolute inset-x-0 px-2 h-15 md:px-25 z-100 bg-linear-to-b from-black/40 to-black/1 flex `}>
       <div className="logo ">
         <Link to={"/"} >
         <img className=" w-30 lg:w-48" src={header_logo} alt="Logo" />
         </Link>
          </div>
 
-        {user&&<div ref={userContainerref} className="relative">
-          <div onClick={handleUserContainer} className="userContainer text-2xl m-3 text-red-700 cursor-pointer">
+        {user&&<div ref={userContainerref} className="userContainer relative">
+          <div onClick={handleUserContainer} className=" text-2xl  mx-10 my-3 md:m-3 text-red-700 cursor-pointer">
               < FaUserSecret ></FaUserSecret>
            </div>
 
-            <div className={`userContainer  absolute  rounded-b-2xl bg-linear-to-b  from-red-500 to-red-300  w-50 flex flex-col overflow-hidden  transition-all duration-300  space-y-1 -right-20 ${userContainer?"h-40" :"h-0 p-0"} `}>
+            <div className={`userContainer  absolute  rounded-b-2xl bg-linear-to-b  from-red-500 to-red-300 w-30 md:w-50 flex flex-col overflow-hidden  transition-all duration-300  space-y-1 right-0 md:-right-20 ${userContainer?"h-40" :"h-0 p-0"} `}>
               <button onClick={handleSignOut} className="cursor-pointer" >Sign Out </button>
               
             </div>

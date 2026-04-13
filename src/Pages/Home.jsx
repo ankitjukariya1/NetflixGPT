@@ -36,12 +36,12 @@ const Home = () => {
    return (
       <div className="homePage bg-black relative ">
          <MainMovie trending={trending} />
-         <div className="relative z-10 -mt-28 md:-mt-36 lg:-mt-48">
+        
             <div className="text-white font-semibold ml-4">
                <p>Top 10 Popular Movies in Netflix Today</p>
             </div>
             <MovieContainer data={popular} />
-         </div>
+         
          <div className="text-white font-semibold mt-4 ml-4">
             <p>Top 10 Top Rated Movies</p>
          </div>
