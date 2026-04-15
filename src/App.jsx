@@ -23,6 +23,7 @@ const App = () => {
           displayName: user.displayName,
         }));
       } else {
+        navigate("/")
         dispatch(changeUser(null));
       }
     });
