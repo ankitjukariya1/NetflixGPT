@@ -14,7 +14,6 @@ const MainMovie = ({ trending }) => {
     staleTime: 5 * 60 * 1000
   })
 const trailerMovie =mainMovievideo.data?.results.find(d => d.type === "Trailer") ||mainMovievideo.data?.results[0];
-  console.log(mainMovievideo);
   const mainMovie = trending.data && getMainMovie(trending.data?.results);
   const isDataReady = trending.data && trailerMovie && !trending.isFetching && !mainMovievideo.isFetching;
   return <div className="relative w-full overflow-hidden aspect-square md:aspect-video ">

@@ -6,6 +6,7 @@ import {
   signInWithPopup
 } from "firebase/auth";
 import auth  from "../firebase/config";
+import { Navigate } from "react-router-dom";
 
 // Email Signup
 export const signupUser = async(email, password) => {

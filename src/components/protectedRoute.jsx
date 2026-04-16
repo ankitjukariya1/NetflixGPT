@@ -1,23 +1,16 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux"
-import { Outlet, useNavigate } from "react-router-dom"
+import { Navigate, Outlet, useNavigate } from "react-router-dom"
 
 
    
 
-const ProtectedRoute= ()=>{
- const { user } = useSelector((state) => state.auth);
-const navigate = useNavigate();
- useEffect(()=>{
-    if (!user){
-     return navigate("/")
-    }  
-    },[user])
+const ProtectedRoute= ({loading})=>{
+  const {user} = useSelector(a=>a.auth)
 
- return(
-  <Outlet></Outlet>
- )   
 
-}
+if (loading) return <div className="h-dvh bg-red-700 text-9xl text-white">Loading...</div> 
+return user?<Outlet></Outlet>:<Navigate to={"/"} ></Navigate>}
+
 
 export default ProtectedRoute

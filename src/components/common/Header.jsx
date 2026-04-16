@@ -42,7 +42,7 @@ const handleclick= (e)=>{
 
   return (<><div className={`Nav-Container justify-between absolute inset-x-0 px-2 h-15 md:px-25 z-100 bg-linear-to-b from-black/40 to-black/1 flex `}>
       <div className="logo ">
-        <Link to={"/"} >
+        <Link to={"/home"} >
         <img className=" w-30 lg:w-48" src={header_logo} alt="Logo" />
         </Link>
          </div>
