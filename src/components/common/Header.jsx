@@ -1,4 +1,4 @@
-import { Link,NavLink } from "react-router-dom"
+import { Link,NavLink, useNavigate } from "react-router-dom"
 import { FaUserSecret } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
@@ -11,7 +11,8 @@ import { header_logo } from "../../constants/constants";
 
 const Header = ()=>{
     const dispatch = useDispatch();
-    const {user} = useSelector(state=>state.auth)
+    const navigate = useNavigate();
+    const {user, loading} = useSelector(state=>state.auth)
     const [userContainer , setUserContainer] = useState(false);
     const userContainerref = useRef(null);
     
@@ -19,11 +20,13 @@ const Header = ()=>{
    setUserContainer(!userContainer);
 }
 
-const handleSignOut = ()=>{
+const handleSignOut = async ()=>{
      setUserContainer(!userContainer)
     const result = confirm("You want to logout")
-  if (result){;
-    dispatch(signOut());}
+  if (result){
+    await dispatch(signOut());
+    navigate("/");
+  }
 }
 
 

@@ -70,7 +70,11 @@ export const authSlice = createSlice({
 
 
     // signOut 
+    builder.addCase(signOut.pending,(state)=>{
+       state.loading=true;
+    })
      builder.addCase(signOut.fulfilled,(state)=>{
+       state.loading=false;
        state.user=null;
      })
   }
