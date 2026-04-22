@@ -3,6 +3,7 @@ import { useQueries } from "@tanstack/react-query";
 import { getPopularMovie, getTopRatedMovie, getTrendingMovie } from "../api/movieApi";
 import MainMovie from "../components/homePage components/MainMovie";
 import MovieContainer from "../components/homePage components/MovieContainer";
+import { MovieContainerShimmer } from "../components/homePage components/MovieContainerShimmer";
 
 
 
@@ -45,11 +46,11 @@ const Home = () => {
          <div className="text-white font-semibold mt-4 ml-4">
             <p>Top 10 Top Rated Movies</p>
          </div>
-         <MovieContainer data={topRated}></MovieContainer>
+        <MovieContainer data={topRated}></MovieContainer>
          <div className="text-white font-semibold mt-4 ml-4">
-            <p>Trending Movies</p>
+            <p>Trending Movies</p></div>
             <MovieContainer data={trending}></MovieContainer>
-         </div>
+         
       </div>
    )
 
