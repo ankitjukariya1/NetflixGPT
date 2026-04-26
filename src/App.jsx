@@ -8,14 +8,14 @@ import { useEffect, useState } from "react"
 import Home from "./Pages/Home"
 import Layout from "./Pages/Layout";
 
+const auth = getAuth();  // puting outside of component because it return same value always so no need to render every time
 const App = () => {
   const [loading , setLoading] = useState(true);
-  const auth = getAuth();
+ 
   const dispatch = useDispatch();
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        
         dispatch(changeUser({
           uid: user.uid,
           email: user.email,

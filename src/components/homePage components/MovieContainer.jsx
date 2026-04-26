@@ -7,6 +7,7 @@ import { MovieContainerShimmer } from "./MovieContainerShimmer"
 const MovieContainer = ({ data }) => {
     
      const Movies =  data.data?.results
+     console.log (Movies);
    return Movies?<div className="ml-2 z-40 overflow-hidden popular scrollbar-hide mt-4 gap-2 flex overflow-x-auto  ">
       { Movies.map((m) => {
          return <MovieCard movie={m} key={m.id} ></MovieCard>
