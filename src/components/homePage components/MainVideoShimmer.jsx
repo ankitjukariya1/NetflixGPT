@@ -3,4 +3,4 @@ export const MainVideoShimmer = ({data,frame})=>{
    return <div className={`w-full h-full absolute pt-20 inset-0 z-10 transition-all duration-500 bg-black ${data && frame?"hidden":"block" } `}>
        <div className="bg-white/20 rounded-2xl animate-pulse m-5  h-[82%]"></div>
    </div>
-}
+}  
