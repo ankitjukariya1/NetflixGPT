@@ -32,7 +32,7 @@ const Home = () => {
   
    return (
       <div className="homePage bg-black relative ">
-         <MainMovie trending={trending} />
+         <MainMovie movie={trending} />
         
             <div className="text-white font-semibold ml-4">
                <p>Top 10 Popular Movies in Netflix Today</p>

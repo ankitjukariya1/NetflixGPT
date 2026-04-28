@@ -34,7 +34,7 @@ try {
 }
 }
 
-export const getMainMovieVideo = async ({queryKey})=>{
+export const getMovieVideo = async ({queryKey})=>{
   try {
     const [,movieId]=queryKey;
     const result= await movieApi.get(`/mainMovie/video/${movieId}`)

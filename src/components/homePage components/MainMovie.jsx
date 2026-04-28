@@ -1,21 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
-import { getMainMovieVideo } from "../../api/movieApi";
+import { getMovieVideo } from "../../api/movieApi";
 import { useState } from "react";
 import { MainVideoShimmer } from "./MainVideoShimmer";
 import { getMainMovie } from "../../services/MainMovie"
 
-const MainMovie = ({ trending }) => {
+const MainMovie = ({ movie }) => {
   const [isIframeLoaded, setIsIframeLoaded] = useState(false);
   const mainMovievideo = useQuery({
-    queryKey: ['mainMovie', trending.data?.results[0].id],
-    queryFn: getMainMovieVideo,
-    enabled: !!trending.data,
+    queryKey: ['mainMovie', movie.data?.results[0].id],
+    queryFn: getMovieVideo,
+    enabled: !!movie.data,
     gcTime: 5 * 60 * 1000,
     staleTime: 5 * 60 * 1000
   })
 const trailerMovie =mainMovievideo.data?.results.find(d => d.type === "Trailer") ||mainMovievideo.data?.results[0];
-  const mainMovie = trending.data && getMainMovie(trending.data?.results);
-  const isDataReady = trending.data && trailerMovie && !trending.isFetching && !mainMovievideo.isFetching;
+  const mainMovie = movie.data && getMainMovie(movie.data?.results);
+  const isDataReady = movie.data && trailerMovie && !movie.isFetching && !mainMovievideo.isFetching;
   return <div className="relative w-full overflow-hidden aspect-square md:aspect-video ">
     {/* Iframe renders underneath, always in DOM once data is ready */}
     {isDataReady && (
