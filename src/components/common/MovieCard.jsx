@@ -10,8 +10,8 @@ const MovieCard = ({ movie }) => {
           queryKey:['movieVideo',movie.id],
           queryFn:getMovieVideo,
           enabled:movieClick,
-          gcTime: 5 * 60 * 1000,
-          staleTime: 5 * 60 * 1000
+          gcTime: 5 * 60 * 1000, 
+          staleTime: 5 * 60 * 1000 
         })
      const handleMovieClick = ()=>{
         setMovieClick(true);
