@@ -4,3 +4,4 @@ export const MainVideoShimmer = ({data,frame})=>{
        <div className="bg-white/20 rounded-2xl animate-pulse m-5  h-[82%]"></div>
    </div>
 }  
+   
